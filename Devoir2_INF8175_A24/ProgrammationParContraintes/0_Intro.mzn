@@ -18,7 +18,7 @@ array[1..4] of var 1..9: chiffres;
 % nombre à 4 chiffres
 var 1000..9999: nombre = 1000 * chiffres[1] + 100 * chiffres[2] + 10 * chiffres[3] + chiffres[4];
 
-% produit des 3 derniers chiffres
+% produuit a minimizer
 var int: p = chiffres[2] * chiffres[3] * chiffres[4];
 
 %-----------------------------------------------------------------------------%
@@ -50,7 +50,7 @@ constraint sum(chiffres) > 15;
 % Objectif
 %-----------------------------------------------------------------------------%
 
-% On veux minimizer le probléme
+
 solve minimize p;
 
 output [
