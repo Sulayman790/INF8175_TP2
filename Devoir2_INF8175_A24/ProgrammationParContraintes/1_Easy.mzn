@@ -1,12 +1,12 @@
+include "globals.mzn";
+
 % NOM_ETUDIANT_1 (MATRICULE_1)
 % NOM_ETUDIANT_2 (MATRICULE_2)
 
-include "globals.mzn";
 
 %-----------------------------------------------------------------------------%
 % Données
 %-----------------------------------------------------------------------------%
-
 % Nombre d'acteurs et de rôles
 int: n;
 % Couleurs des costumes
@@ -17,18 +17,36 @@ array[1..n,1..n] of costumes: choix_costume;
 %-----------------------------------------------------------------------------%
 % Variables de décisions
 %-----------------------------------------------------------------------------%
-
-% Variables de décision pour assigner un acteur à un rôle
-array [1..n] of var 1..n: assignation_role;
+% Les rôles assignés à chaque acteur (1..n)
+array[1..n] of var 1..n: assignation_role;
+% costumes portés par chaque acteur
+array[1..n] of var costumes: costumes_assigne;
 
 %-----------------------------------------------------------------------------%
 % Partie étudiant
 %-----------------------------------------------------------------------------%
 
+% Contraintes :
 
+% 1. les acteura ont un role unique
+constraint alldifferent(assignation_role);
 
-%-----------------------------------------------------------------------------%
+% 2.les costumes choisis par les acteurs sont uniques
+constraint alldifferent(costumes_assigne);
 
+% 3. les rôles attribués aux acteurs voisins sont differents
+constraint forall(i in 1..n-1) (
+    (assignation_role[i] > assignation_role[i+1] + 1) \/ (assignation_role[i] < assignation_role[i+1] - 1)
+);
+
+% 4. chaque acteur reçoit le costume qu'il a demandé pour le rôle attribué
+constraint forall(i in 1..n) (
+    costumes_assigne[i] = choix_costume[assignation_role[i], i]
+);
+
+solve satisfy;
+
+% Sortie
 output	
   ["L'acteur " ++ format(i) ++ 
    " prendra le rôle " ++ format(fix(assignation_role[i])) ++ 
