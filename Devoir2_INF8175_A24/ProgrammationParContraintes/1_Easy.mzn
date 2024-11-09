@@ -42,7 +42,7 @@ constraint forall(i in 1..n) (costumes_assigne[i] = choix_costume[assignation_ro
 
 solve satisfy;
 
-% Sortie
+%-----------------------------------------------------------------------------%
 output	
   ["L'acteur " ++ format(i) ++ 
    " prendra le rôle " ++ format(fix(assignation_role[i])) ++ 
