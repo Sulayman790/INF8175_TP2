@@ -1,7 +1,11 @@
+# BEN_OTHMAN(1934245)
+# Hosna(2132223)
+
 import random
 import math
 
 def solve(schedule):
+    # Simulated annealing - algorithme 
     initial_temperature = 1000.0
     alpha = 0.95  
     max_iterations = 1000
